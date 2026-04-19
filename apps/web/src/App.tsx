@@ -1,14 +1,16 @@
+import { useState } from 'react';
 import { useAuth } from './auth/AuthContext';
 import { useRemoteTodos } from './useRemoteTodos';
 import AddTodo from './components/AddTodo';
 import TodoList from './components/TodoList';
 import StatusBar from './components/StatusBar';
 import LoginPage from './auth/LoginPage';
-import WhatsNew from './components/WhatsNew';
+import Settings from './components/Settings';
 
 export default function App() {
-  const { user, accessToken, signOut } = useAuth();
+  const { user, accessToken } = useAuth();
   const { todos, addTodo, completeTodo, deleteTodo, status, error } = useRemoteTodos(accessToken);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   if (!user) return <LoginPage />;
 
@@ -21,16 +23,17 @@ export default function App() {
             <p style={{ fontSize: 13, color: '#8e8e93', marginTop: 2 }}>{user.name ?? user.email}</p>
           )}
         </div>
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 4 }}>
-          <WhatsNew />
+        <div style={{ display: 'flex', alignItems: 'center', marginTop: 4 }}>
           <button
-            onClick={signOut}
+            onClick={() => setSettingsOpen(true)}
+            title="Settings"
             style={{
               background: 'none', border: 'none', cursor: 'pointer',
-              fontSize: 13, color: '#8e8e93', padding: '6px 4px',
+              fontSize: 20, color: '#8e8e93', padding: '6px 4px', lineHeight: 1,
             }}
+            aria-label="Open settings"
           >
-            Sign out
+            ⚙
           </button>
         </div>
       </header>
@@ -38,6 +41,8 @@ export default function App() {
       <StatusBar status={status} error={error} />
       <AddTodo onAdd={addTodo} />
       <TodoList todos={todos} onComplete={completeTodo} onDelete={deleteTodo} />
+
+      <Settings open={settingsOpen} onClose={() => setSettingsOpen(false)} />
     </div>
   );
 }

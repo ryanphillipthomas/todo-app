@@ -7,6 +7,7 @@ struct ContentView: View {
     @State private var store = TodoStore()
     @State private var newText = ""
     @State private var showWhatsNew = false
+    @State private var showSettings = false
     @FocusState private var fieldFocused: Bool
 
     var body: some View {
@@ -24,6 +25,9 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showWhatsNew) {
             WhatsNewView(isPresented: $showWhatsNew)
+        }
+        .sheet(isPresented: $showSettings) {
+            SettingsView().environment(auth)
         }
         .onAppear {
             if let token = auth.accessToken() { store.connect(token: token) }
@@ -49,6 +53,7 @@ struct ContentView: View {
             }
             Spacer()
             Menu {
+                Button("Settings") { showSettings = true }
                 Button("What's New") { showWhatsNew = true }
                 Divider()
                 Button("Sign Out", role: .destructive) {
