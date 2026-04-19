@@ -13,6 +13,15 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    version: '1.3.1',
+    date: '2026-04-19',
+    changes: [
+      { type: 'feature', text: 'Settings page on web and iOS' },
+      { type: 'improvement', text: 'Light, Dark, and System appearance toggle' },
+      { type: 'improvement', text: 'Account info with initials avatar in settings' },
+    ],
+  },
+  {
     version: '1.3.0',
     date: '2026-04-19',
     changes: [
