@@ -1,0 +1,28 @@
+{
+  "name": "todo-app",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "start": "bash start.sh",
+    "web": "npm run dev --workspace=apps/web",
+    "api": "npm run dev --workspace=apps/api",
+    "mobile": "npm run start --workspace=apps/mobile",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "eslint .",
+    "build": "npm run build --workspace=apps/web"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "typescript": "^5.5.0"
+  },
+  "dependencies": {
+    "globals": "^17.5.0"
+  }
+}

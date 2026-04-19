@@ -1,0 +1,14 @@
+node_modules/
+dist/
+build/
+.DS_Store
+*.db
+*.db-shm
+*.db-wal
+.env
+.env.local
+.env.*.local
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+DerivedData/
+**/.claude-flow/
