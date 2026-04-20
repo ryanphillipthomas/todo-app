@@ -1,50 +1,84 @@
 # Todo App
 
-Multiplatform todo app — React web + native SwiftUI iOS — sharing a common TypeScript data model and hook.
+Multiplatform todo app — React web + native SwiftUI iOS — with real-time sync, Apple Sign In, and a shared TypeScript data layer.
+
+## Screenshots
+
+<table>
+  <tr>
+    <td align="center"><b>iOS</b></td>
+    <td align="center"><b>Web</b></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/ios-login.png" width="280" alt="iOS login screen" /></td>
+    <td><img src="docs/screenshots/web-login.png" width="480" alt="Web login screen" /></td>
+  </tr>
+</table>
+
+## Features
+
+- **Real-time sync** — WebSocket pushes changes instantly across all connected devices
+- **Apple Sign In** — native on iOS, JS SDK on web
+- **Offline-resilient** — REST fallback polling when WebSocket is unavailable
+- **Settings** — light/dark/system appearance, account info, What's New
+- **Version history** — in-app changelog accessible from settings
 
 ## Structure
 
 ```
 todo-app/
-├── packages/shared/   # TypeScript types + useTodos hook
+├── packages/shared/   # TypeScript types, changelog
+├── apps/api/          # Express + SQLite + WebSocket backend
 ├── apps/web/          # Vite + React
-└── apps/mobile/       # SwiftUI (XcodeGen)
+└── apps/mobile/       # SwiftUI iOS (XcodeGen)
 ```
 
 ## Getting started
 
 ```bash
 npm install
-```
-
-### Web
-```bash
-npm run web
-# → http://localhost:5173
+npm start
+# API  → http://localhost:3001
+# Web  → http://localhost:5173
 ```
 
 ### iOS
+
 ```bash
 cd apps/mobile
 xcodegen generate
 open TodoApp.xcodeproj
 ```
 
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `npm start` | Start API + web together |
+| `npm run web` | Web only |
+| `npm run api` | API only |
+| `npm test` | Run all tests |
+| `npm run lint` | Lint all packages |
+| `npm run build` | Production web build |
+
 ## Testing
 
 ```bash
-# Shared hook (Vitest)
-npm test --workspace=packages/shared
-
-# iOS (XCTest)
-cd apps/mobile && xcodebuild test \
-  -project TodoApp.xcodeproj \
-  -scheme TodoApp \
-  -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
+npm test
+# 18 tests across shared, api, and web packages
 ```
+
+## Tech stack
+
+| Layer | Stack |
+|-------|-------|
+| Web | Vite, React, TypeScript |
+| iOS | SwiftUI, XcodeGen, XCTest |
+| API | Express, better-sqlite3, ws |
+| Auth | Apple Sign In, JWT, refresh tokens |
+| CI | GitHub Actions |
+| Infra | Docker, docker-compose |
 
 ## CI
 
-GitHub Actions runs on every push and PR:
-- **web** job: installs, runs shared tests, builds web app
-- **ios** job: generates Xcode project, builds and tests on simulator
+GitHub Actions runs on every push and PR across 4 jobs: lint, web build, API tests, iOS build.
