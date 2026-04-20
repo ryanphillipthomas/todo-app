@@ -9,6 +9,8 @@ settings:
   base:
     SWIFT_VERSION: 5.9
     DEVELOPMENT_TEAM: ""
+    MARKETING_VERSION: "1.3.1"
+    CURRENT_PROJECT_VERSION: "4"
 
 targets:
   TodoApp:
@@ -16,12 +18,23 @@ targets:
     platform: iOS
     sources:
       - Sources
+    resources:
+      - path: Sources/TodoApp/Assets.xcassets
+      - path: Sources/TodoApp/PrivacyInfo.xcprivacy
     info:
       path: Sources/TodoApp/Info.plist
       properties:
+        CFBundleDisplayName: Todos
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
         NSAppTransportSecurity:
           NSAllowsLocalNetworking: true
-        UILaunchScreen: {}
+        NSLocalNetworkUsageDescription: "Used to connect to the local development server."
+        UILaunchScreen:
+          UIColorName: ""
+          UIImageName: ""
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
     entitlements:
       path: Sources/TodoApp/TodoApp.entitlements
       properties:
@@ -31,6 +44,16 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.todoapp.mobile
         GENERATE_INFOPLIST_FILE: NO
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+      configs:
+        Debug:
+          OTHER_SWIFT_FLAGS: "-DDEBUG"
+        Release:
+          SWIFT_OPTIMIZATION_LEVEL: "-O"
+          ENABLE_BITCODE: NO
+          DEBUG_INFORMATION_FORMAT: "dwarf-with-dsym"
+          VALIDATE_PRODUCT: YES
     scheme:
       testTargets:
         - TodoAppTests
