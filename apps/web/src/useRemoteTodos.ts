@@ -44,6 +44,7 @@ export function useRemoteTodos(accessToken: string | null) {
   }), [accessToken]);
 
   const addTodo = useCallback(async (text: string) => {
+    if (!text.trim()) return;
     try {
       setError(null);
       const res = await fetch(`${API}/todos`, { method: 'POST', headers: headers(), body: JSON.stringify({ text }) });

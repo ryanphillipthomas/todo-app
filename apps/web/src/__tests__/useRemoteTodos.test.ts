@@ -68,4 +68,49 @@ describe('useRemoteTodos', () => {
     await act(() => result.current.deleteTodo('abc-123'));
     expect(mockFetch).toHaveBeenCalledWith('http://localhost:3001/todos/abc-123', expect.objectContaining({ method: 'DELETE' }));
   });
+
+  it('status starts as connecting', () => {
+    const { result } = renderHook(() => useRemoteTodos(FAKE_TOKEN));
+    expect(result.current.status).toBe('connecting');
+  });
+
+  it('status becomes connected after WebSocket opens', async () => {
+    const { result } = renderHook(() => useRemoteTodos(FAKE_TOKEN));
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+    expect(result.current.status).toBe('connected');
+  });
+
+  it('addTodo with empty string does NOT call fetch', async () => {
+    const { result } = renderHook(() => useRemoteTodos(FAKE_TOKEN));
+    await act(() => result.current.addTodo(''));
+    expect(mockFetch).not.toHaveBeenCalled();
+  });
+
+  it('addTodo with blank/whitespace string does NOT call fetch', async () => {
+    const { result } = renderHook(() => useRemoteTodos(FAKE_TOKEN));
+    await act(() => result.current.addTodo('   '));
+    expect(mockFetch).not.toHaveBeenCalled();
+  });
+
+  it('error is null initially', () => {
+    const { result } = renderHook(() => useRemoteTodos(FAKE_TOKEN));
+    expect(result.current.error).toBeNull();
+  });
+
+  it('sets error to a non-null string when fetch returns ok: false', async () => {
+    mockFetch.mockResolvedValueOnce({ ok: false });
+    const { result } = renderHook(() => useRemoteTodos(FAKE_TOKEN));
+    await act(() => result.current.addTodo('Buy milk'));
+    expect(result.current.error).not.toBeNull();
+    expect(typeof result.current.error).toBe('string');
+  });
+
+  it('does not create a WebSocket when token is null', () => {
+    const wsConstructorSpy = vi.spyOn(globalThis, 'WebSocket');
+    renderHook(() => useRemoteTodos(null));
+    expect(wsConstructorSpy).not.toHaveBeenCalled();
+    wsConstructorSpy.mockRestore();
+  });
 });
