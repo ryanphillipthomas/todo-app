@@ -13,6 +13,25 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    version: '1.4.0',
+    date: '2026-04-21',
+    changes: [
+      { type: 'improvement', text: 'Bitrise CI/CD — automated TestFlight deploys on version tags' },
+      { type: 'improvement', text: 'Test coverage expanded from 18 to 47 tests' },
+      { type: 'fix', text: 'addTodo no longer fires a network request for blank input' },
+    ],
+  },
+  {
+    version: '1.3.2',
+    date: '2026-04-20',
+    changes: [
+      { type: 'feature', text: 'App icon — blue background with white checkmark, all required sizes' },
+      { type: 'feature', text: 'Privacy manifest (PrivacyInfo.xcprivacy) for App Store compliance' },
+      { type: 'improvement', text: 'Release build config with dSYM and product validation' },
+      { type: 'improvement', text: 'README now shows real screenshots of the web and iOS UI' },
+    ],
+  },
+  {
     version: '1.3.1',
     date: '2026-04-19',
     changes: [
