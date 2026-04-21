@@ -14,10 +14,10 @@
 		51CB85D62C3DD82AA3A9D455 /* WhatsNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D89EF66830D5A604E01FDF /* WhatsNewView.swift */; };
 		7B506F9CADC6BF1786F48067 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFEB0010D16D0F6200721F4 /* ContentView.swift */; };
 		972779B096D0731D17F5A83C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20BF677C2A957471E683CCF /* SettingsView.swift */; };
+		A015DD4021D33C9268BAC224 /* TodoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E05AA6125B0AA2DF1EE9B23 /* TodoCard.swift */; };
 		A9A6216808C95D8A4D33D85A /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C8354236694FA326EDB2D4 /* APIClient.swift */; };
 		B0EB3F92D5A2688B81B50CC6 /* AuthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6073D3A52F04765EF428A441 /* AuthStore.swift */; };
 		B6C4321DD6AD2835E8EA9D2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58875EDAA26A4A47BD7EB06A /* Assets.xcassets */; };
-		C59CBC4B8FEDD80A3D06F045 /* TodoRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E38CEF048B99DE05EF3F543 /* TodoRow.swift */; };
 		C605A244848AD371C6FFACDD /* TodoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD3BE03BA8A3555B31D34B5 /* TodoStore.swift */; };
 		C67E64638F7A9BAAE5072D09 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80F88AA4E6CD50FB0F10CA2 /* SignInView.swift */; };
 		C7464344E1C41C9CE68A5BCA /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD91A3754A2D304CF8A2F55 /* KeychainHelper.swift */; };
@@ -38,9 +38,9 @@
 		4AD91A3754A2D304CF8A2F55 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		4C372423DB2F2E1F9E426922 /* TodoAppTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TodoAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		58875EDAA26A4A47BD7EB06A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5E05AA6125B0AA2DF1EE9B23 /* TodoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoCard.swift; sourceTree = "<group>"; };
 		6073D3A52F04765EF428A441 /* AuthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStore.swift; sourceTree = "<group>"; };
 		61C8354236694FA326EDB2D4 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
-		6E38CEF048B99DE05EF3F543 /* TodoRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRow.swift; sourceTree = "<group>"; };
 		74D89EF66830D5A604E01FDF /* WhatsNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewView.swift; sourceTree = "<group>"; };
 		7F3B6CA503DC68C1DA4D5AD7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8A93929667D4A8D5ADA53A47 /* TodoStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoStoreTests.swift; sourceTree = "<group>"; };
@@ -103,7 +103,7 @@
 				AFEDDA90C4D40995C6ED9D11 /* Todo.swift */,
 				328679D67556F2224880341C /* TodoApp.entitlements */,
 				FC3D262D58252FBA8EFB617A /* TodoApp.swift */,
-				6E38CEF048B99DE05EF3F543 /* TodoRow.swift */,
+				5E05AA6125B0AA2DF1EE9B23 /* TodoCard.swift */,
 				BBD3BE03BA8A3555B31D34B5 /* TodoStore.swift */,
 				74D89EF66830D5A604E01FDF /* WhatsNewView.swift */,
 				445678AF3419EE170BAE30B7 /* Auth */,
@@ -220,7 +220,7 @@
 				C67E64638F7A9BAAE5072D09 /* SignInView.swift in Sources */,
 				4983F399D577F6B15D4914D3 /* Todo.swift in Sources */,
 				0AC433751B91CC2F6F1E5945 /* TodoApp.swift in Sources */,
-				C59CBC4B8FEDD80A3D06F045 /* TodoRow.swift in Sources */,
+				A015DD4021D33C9268BAC224 /* TodoCard.swift in Sources */,
 				C605A244848AD371C6FFACDD /* TodoStore.swift in Sources */,
 				51CB85D62C3DD82AA3A9D455 /* WhatsNewView.swift in Sources */,
 			);

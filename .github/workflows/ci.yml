@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: .nvmrc
           cache: npm
       - run: npm ci
       - run: npm run lint
@@ -26,7 +26,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: .nvmrc
           cache: npm
       - run: npm ci
       - run: npm test --workspace=packages/shared
@@ -40,7 +40,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: .nvmrc
           cache: npm
       - run: npm ci
       - run: npm test --workspace=apps/api
@@ -50,6 +50,8 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.3.app/Contents/Developer
       - name: Install tools
         run: brew install xcodegen xcbeautify
       - name: Generate Xcode project
@@ -61,5 +63,5 @@ jobs:
           xcodebuild test \
             -project TodoApp.xcodeproj \
             -scheme TodoApp \
-            -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
-            | xcbeautify
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=latest' \
+            | xcbeautify --quiet
