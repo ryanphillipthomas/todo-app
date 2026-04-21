@@ -1,0 +1,91 @@
+format_version: "13"
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+
+app:
+  envs:
+    - BITRISE_PROJECT_PATH: apps/mobile/TodoApp.xcodeproj
+      opts: { is_expand: false }
+    - BITRISE_SCHEME: TodoApp
+      opts: { is_expand: false }
+    - BITRISE_DISTRIBUTION_METHOD: app-store
+      opts: { is_expand: false }
+
+workflows:
+
+  # ── CI: runs on every PR / push to main ──────────────────────────────────
+  ci:
+    summary: Build and test the iOS app + run JS tests
+    steps:
+      - activate-ssh-key@4: {}
+      - git-clone@8: {}
+
+      - npm@1:
+          title: Install JS deps
+          inputs:
+            - command: install
+
+      - npm@1:
+          title: Run JS tests
+          inputs:
+            - command: test
+
+      - xcode-test@5:
+          title: iOS unit tests
+          inputs:
+            - project_path: $BITRISE_PROJECT_PATH
+            - scheme: $BITRISE_SCHEME
+            - destination: platform=iOS Simulator,name=iPhone 17 Pro,OS=latest
+            - test_repetition_mode: none
+            - xcconfig_content: |
+                DEVELOPMENT_TEAM =
+
+      - deploy-to-bitrise-io@2:
+          title: Upload test results
+          inputs:
+            - notify_user_groups: none
+
+  # ── TestFlight: runs on tags matching v* ─────────────────────────────────
+  deploy:
+    summary: Archive and ship to TestFlight
+    steps:
+      - activate-ssh-key@4: {}
+      - git-clone@8: {}
+
+      - npm@1:
+          title: Install JS deps
+          inputs:
+            - command: install
+
+      - npm@1:
+          title: Run JS tests (gate)
+          inputs:
+            - command: test
+
+      - ios-auto-provision-appstoreconnect@3:
+          title: Manage signing (App Store Connect API)
+          inputs:
+            - distribution_type: $BITRISE_DISTRIBUTION_METHOD
+            - bundle_id: com.todoapp.mobile
+            - api_key_path: $BITRISEIO_APPSTORE_CONNECT_API_KEY_URL
+            - api_issuer: $APPSTORE_CONNECT_API_ISSUER_ID
+
+      - xcode-archive@5:
+          title: Archive (Release)
+          inputs:
+            - project_path: $BITRISE_PROJECT_PATH
+            - scheme: $BITRISE_SCHEME
+            - distribution_method: $BITRISE_DISTRIBUTION_METHOD
+            - configuration: Release
+            - compile_bitcode: "no"
+            - upload_bitcode: "no"
+
+      - deploy-to-itunesconnect-deliver@2:
+          title: Upload to TestFlight
+          inputs:
+            - api_key_path: $BITRISEIO_APPSTORE_CONNECT_API_KEY_URL
+            - api_issuer: $APPSTORE_CONNECT_API_ISSUER_ID
+            - skip_screenshots: "yes"
+            - skip_metadata: "yes"
+
+      - deploy-to-bitrise-io@2:
+          title: Upload IPA artifact
