@@ -4,10 +4,12 @@ private let seenVersionKey = "whats_new_seen_version"
 
 struct ContentView: View {
     @Environment(AuthStore.self) var auth
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
     @State private var store = TodoStore()
     @State private var newText = ""
     @State private var showWhatsNew = false
     @State private var showSettings = false
+    @State private var confirmSignOut = false
     @FocusState private var fieldFocused: Bool
 
     var body: some View {
@@ -29,6 +31,15 @@ struct ContentView: View {
         .sheet(isPresented: $showSettings) {
             SettingsView().environment(auth)
         }
+        .confirmationDialog("Sign out of Todos?", isPresented: $confirmSignOut, titleVisibility: .visible) {
+            Button("Sign Out", role: .destructive) {
+                store.disconnect()
+                auth.signOut()
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("You'll need to sign in again to access your todos.")
+        }
         .onAppear {
             if let token = auth.accessToken() { store.connect(token: token) }
             if UserDefaults.standard.string(forKey: seenVersionKey) != currentAppVersion {
@@ -40,11 +51,13 @@ struct ContentView: View {
 
     // MARK: Header
 
+    private var isLandscape: Bool { verticalSizeClass == .compact }
+
     private var header: some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
                 Text("Todos")
-                    .font(.system(size: 32, weight: .bold, design: .rounded))
+                    .font(.system(size: isLandscape ? 22 : 32, weight: .bold, design: .rounded))
                 if let name = auth.user?.name ?? auth.user?.email {
                     Text(name)
                         .font(.subheadline)
@@ -57,8 +70,7 @@ struct ContentView: View {
                 Button("What's New") { showWhatsNew = true }
                 Divider()
                 Button("Sign Out", role: .destructive) {
-                    store.disconnect()
-                    auth.signOut()
+                    confirmSignOut = true
                 }
             } label: {
                 Image(systemName: "ellipsis.circle.fill")
@@ -68,8 +80,8 @@ struct ContentView: View {
             }
         }
         .padding(.horizontal, 20)
-        .padding(.top, 16)
-        .padding(.bottom, 12)
+        .padding(.top, isLandscape ? 8 : 16)
+        .padding(.bottom, isLandscape ? 6 : 12)
     }
 
     // MARK: List

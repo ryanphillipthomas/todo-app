@@ -4,6 +4,7 @@ struct SettingsView: View {
     @Environment(AuthStore.self) private var auth
     @AppStorage("appearance") private var appearance: String = "System"
     @State private var showWhatsNew = false
+    @State private var confirmSignOut = false
 
     private let appearanceOptions = ["Light", "Dark", "System"]
 
@@ -62,7 +63,7 @@ struct SettingsView: View {
                 // MARK: Danger zone
                 Section {
                     Button("Sign Out", role: .destructive) {
-                        auth.signOut()
+                        confirmSignOut = true
                     }
                 }
             }
@@ -70,6 +71,14 @@ struct SettingsView: View {
             .navigationBarTitleDisplayMode(.large)
             .sheet(isPresented: $showWhatsNew) {
                 WhatsNewView(isPresented: $showWhatsNew)
+            }
+            .confirmationDialog("Sign out of Todos?", isPresented: $confirmSignOut, titleVisibility: .visible) {
+                Button("Sign Out", role: .destructive) {
+                    auth.signOut()
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("You'll need to sign in again to access your todos.")
             }
         }
     }

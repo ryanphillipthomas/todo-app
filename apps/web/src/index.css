@@ -12,3 +12,10 @@ body {
   margin: 0 auto;
   padding: 48px 16px 80px;
 }
+
+@media (orientation: landscape) and (max-height: 600px) {
+  #root {
+    padding-top: 20px;
+    padding-bottom: 24px;
+  }
+}
